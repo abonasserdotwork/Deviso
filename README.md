@@ -68,9 +68,23 @@ to the published executable.
   confirmation and reports the tool's actual response; it does not claim that
   unsupported tests ran.
 
-## Build
+## Requirements
 
-Requires the .NET 10 SDK and Windows Desktop workload/runtime:
+- **To run a published build:** Windows 10 or 11 (64-bit). The release is
+  self-contained, so a separate .NET runtime installation is not required.
+- **To build from source:** the .NET 10 SDK installed on Windows. No separate
+  Windows Desktop workload or third-party NuGet packages are required.
+- **Windows PowerShell 5.1** and `chkdsk.exe` are included with Windows and are
+  used for disk information and file-system checks.
+- **[smartmontools](https://www.smartmontools.org/)** is optional. Install it
+  for additional SMART data and SMART self-tests. Deviso looks for
+  `smartctl.exe` on `PATH` and in the standard Program Files installation
+  folders. Without it, Windows-provided health and reliability information
+  remains available where supported.
+
+## Build from source
+
+On Windows with the .NET 10 SDK installed:
 
 ```powershell
 dotnet build .\Deviso.csproj
@@ -78,7 +92,8 @@ dotnet run --project .\Deviso.csproj
 dotnet publish .\Deviso.csproj -c Release -r win-x64 --self-contained true
 ```
 
-The standalone executable is published under `bin\Release\net10.0-windows\win-x64\publish\`.
+The self-contained executable is published under
+`bin\Release\net10.0-windows\win-x64\publish\`.
 
 SMART/reliability counters vary by storage driver, controller, and device. Deviso
 reports unavailable counters rather than treating missing data as a healthy result.
